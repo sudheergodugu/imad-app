@@ -185,7 +185,7 @@ textarea {
   }
 }
 
-.button {
+.:button {
   border:0;
   outline:none;
   border-radius:0;
