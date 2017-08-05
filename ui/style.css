@@ -19,15 +19,15 @@ body {
  .img-medium {
 height: 200px;
  }
-@import "compass/css3";
 
-$body-bg: #c1bdba;
-$form-bg: #13232f;
-$white: #ffffff;
 
-$main: #1ab188;
-$main-light: lighten($main,5%);
-$main-dark: darken($main,5%);
+body-bg: #c1bdba,
+form-bg: #13232f,
+white: #ffffff,
+
+main: #1ab188;
+main-light: lighten(main,5%);
+main-dark: darken(main,5%);
 
 $gray-light: #a0b3b0;
 $gray: #ddd;
@@ -197,7 +197,7 @@ textarea {
   background:$main;
   color:$white;
   transition:all.5s ease;
-  -webkit-appearance: none;
+
   &:hover, &:focus {
     background:$main-dark;
   }
