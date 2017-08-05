@@ -64,7 +64,7 @@ var express = require('express');
  
   });
   
-  app.get('/dailytraveller.com', function (req, res) {
+  app.get('/DT2.0', function (req, res) {
 
  +  res.sendFile(path.join(__dirname, 'ui', 'index.html'));
   });
