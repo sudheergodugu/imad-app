@@ -15,8 +15,8 @@ app.get('/', function (req, res) {
   
   
 });
-app.get('/article-one', function (req, res) {
-  res.send('article one requested and served here');
+app.get('/index.html', function (req, res) {
+  res.send('index.html requested and served here');
 });
 
 
