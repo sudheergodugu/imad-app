@@ -1,49 +1,28 @@
-<!DOCTYPE html>
- <html lang="en">
-      <head>
-           <title>DT2.0</title>
-           <meta charset="utf-8">
-           <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-           </head>
-   
-
-
-
-
-
-  
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Chat - Customer Module</title>
+<link type="text/css" rel="stylesheet" href="style.css" />
+</head>
  
-
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link href='https://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
- 
-
-  <body>
-    <div id="container">
-      <div id="logo_bar">
-        <img id="logo" src="https://lh3.googleusercontent.com/-TDrwLA2Z46E/VdnclUW79oI/AAAAAAAACSs/lq2kFXEj3jE/s160-Ic42/logo_icon.png" alt="logo"> <span></span>
-      </div>
-      <div id="form_box">
-        <form>
-          <p id="form_heading">Login Form</p>
-          <input type="email" placeholder="Enter Email"><br />
-          <input type="password" placeholder="Enter Password"><br />
-          <input type="checkbox" id="checkbox"><label for="checkbox" style="color:white; font-size:15px;">Remember Me</label><br />
-          <input type="submit" value="Login"><br />
-          <a id="font_20">Forgot your Password?</a><br /><br />
-        </form>
-      </div>
+<div id="wrapper">
+    <div id="menu">
+        <p class="welcome">Welcome, <b></b></p>
+        <p class="logout"><a id="exit" href="#">Exit Chat</a></p>
+        <div style="clear:both"></div>
     </div>
-    <div id="credits_box">
-
-    </div>h
-  </body>
-
-  </html>
-
-
-</body>
-
-</html>
+     
+    <div id="chatbox"></div>
+     
+    <form name="message" action="">
+        <input name="usermsg" type="text" id="usermsg" size="63" />
+        <input name="submitmsg" type="submit"  id="submitmsg" value="Send" />
+    </form>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+<script type="text/javascript">
+// jQuery Document
+$(document).ready(function(){
+ 
+});
+</script>
