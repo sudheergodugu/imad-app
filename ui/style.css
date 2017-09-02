@@ -1,3 +1,244 @@
 body	{
 	background-color: #ffffcc;
 	}
+	$colorCenter: red;
+$colorBlade: white;
+
+@function getHypotenuse($a, $b) {
+  @return sqrt(pow($a, 2) + pow($b, 2));
+}
+
+body {
+  background: #000;
+  height: 100vh;
+  overflow: hidden;
+}
+#ui {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  perspective: 500px;
+  
+  .antenna {
+    transform-style: preserve-3d;
+    // transform: rotateY(-40deg);
+    animation: rotate 5000ms ease-in-out infinite alternate;
+    
+    &:hover {
+      animation-play-state: paused;
+    }
+    &_center {
+      transform-style: preserve-3d;
+      position: absolute;
+      
+      // front
+      &_front_top {
+        position: absolute;
+        top: -60px;
+        left: -30px;
+        width: 40px;
+        height: 0px;
+        border-bottom: 60px solid $colorCenter;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        transform: translate3d(0px, 0px, 30px);
+      }
+      &_front_bottom {
+        position: absolute;
+        top: 0px;
+        left: -30px;
+        width: 0px;
+        height: 0px;
+        border-top: 30px solid $colorCenter;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        transform: translate3d(0px, 0px, 30px);
+      }
+      
+      // back
+      &_back_top {
+        position: absolute;
+        top: -60px;
+        left: -30px;
+        width: 40px;
+        height: 0px;
+        border-bottom: 60px solid $colorCenter;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        filter: brightness(30%);
+        transform: translate3d(0px, 0px, 0px);
+      }
+      &_back_bottom {
+        position: absolute;
+        top: 0px;
+        left: -30px;
+        width: 0px;
+        height: 0px;
+        border-top: 30px solid $colorCenter;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        filter: brightness(30%);
+        transform: translate3d(0px, 0px, 0px);
+      }
+      
+      // side
+      &_side_top {
+        position: absolute;
+        top: -90px;
+        left: -20px;
+        width: 40px;
+        height: 30px;
+        height: 0px;
+        border-bottom: 30px solid $colorCenter;
+        // border-left: 10px solid transparent;
+        // border-right: 10px solid transparent;
+        transform-origin: 0 100%;
+        filter: brightness(50%);
+        transform: rotateZ(0deg) rotateX(-90deg) translate3d(0px, 0px, 0px);
+      }
+      &_side_top_left {
+        position: absolute;
+        top: -60px;
+        left: -20px;
+        width: #{getHypotenuse(10, 60)}px;
+        height: 0px;
+        border-bottom: 30px solid $colorCenter;
+        // border-left: 10px solid transparent;
+        // border-right: 10px solid transparent;
+        transform-origin: 0 0;
+        filter: brightness(70%);
+        transform: rotateZ(99deg) rotateX(90deg) translate3d(0px, 0px, 0px);
+      }
+      &_side_top_right {
+        position: absolute;
+        top: -90px;
+        left: 20px;
+        width: #{getHypotenuse(10, 60)}px;
+        height: 0px;
+        border-bottom: 30px solid $colorCenter;
+        // border-left: 10px solid transparent;
+        // border-right: 10px solid transparent;
+        transform-origin: 0 100%;
+        filter: brightness(50%);
+        transform: rotateZ(81deg) rotateX(-90deg) translate3d(0px, 0px, 0px);
+      }
+      &_side_bottom_left {
+        position: absolute;
+        top: 0px;
+        left: -30px;
+        width: #{getHypotenuse(30, 30)}px;
+        height: 0px;
+        border-bottom: 30px solid $colorCenter;
+        // border-left: 10px solid transparent;
+        // border-right: 10px solid transparent;
+        transform-origin: 0 0;
+        filter: brightness(50%);
+        transform: rotateZ(45deg) rotateX(90deg) translate3d(0px, 0px, 0px);
+      }
+      &_side_bottom_right {
+        position: absolute;
+        top: 30px;
+        left: 0px;
+        width: #{getHypotenuse(30, 30)}px;
+        height: 0px;
+        border-bottom: 30px solid $colorCenter;
+        // border-left: 10px solid transparent;
+        // border-right: 10px solid transparent;
+        transform-origin: 0 0;
+        filter: brightness(30%);
+        transform: rotateZ(-45deg) rotateX(90deg) translate3d(0px, 0px, 0px);
+      }
+    }
+    &_blade {
+      transform-style: preserve-3d;
+      
+      &_left {
+        position: absolute;
+        top: -200px;
+        left: -30px;
+        width: 0px;
+        height: 0px;
+        border-bottom: 200px solid $colorBlade;
+        border-left: 25px solid transparent;
+        border-right: 25px solid transparent;
+        filter: brightness(60%);
+        transform-origin: 0 100%;
+        transform: rotateZ(-52deg) translate3d(0px, 0px, 5px);
+      }
+      &_left_top {
+        position: absolute;
+        top: -240px;
+        left: -30px;
+        width: 0px;
+        height: 0px;
+        border-bottom: 200px solid $colorBlade;
+        border-left: 30px solid transparent;
+        // border-right: 35px solid transparent;
+        filter: brightness(100%);
+        transform-origin: 100% 100%;
+        transform: rotateZ(-60deg) rotateX(0deg) rotateY(35deg) translate3d(0px, 0px, 5px);
+      }
+      &_left_bottom {
+        position: absolute;
+        top: -200px;
+        left: -30px;
+        width: 0px;
+        height: 0px;
+        border-bottom: 200px solid $colorBlade;
+        // border-left: 30px solid transparent;
+        border-right: 35px solid transparent;
+        filter: brightness(80%);
+        transform-origin: 0 100%;
+        transform: rotateZ(-44deg) rotateX(0deg) rotateY(-30deg) translate3d(0px, 0px, 5px);
+      }
+      &_right {
+        position: absolute;
+        top: -200px;
+        left: -20px;
+        width: 0px;
+        height: 0px;
+        border-bottom: 200px solid $colorBlade;
+        border-left: 25px solid transparent;
+        border-right: 25px solid transparent;
+        filter: brightness(60%);
+        transform-origin: 100% 100%;
+        transform: rotateZ(50deg) translate3d(0px, 0px, 5px);
+      }
+      &_right_top {
+        position: absolute;
+        top: -240px;
+        left: 0px;
+        width: 0px;
+        height: 0px;
+        border-bottom: 200px solid $colorBlade;
+        // border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        filter: brightness(100%);
+        transform-origin: 0 100%;
+        transform: rotateZ(58deg) rotateX(0deg) rotateY(-35deg) translate3d(0px, 0px, 5px);
+      }
+      &_right_bottom {
+        position: absolute;
+        top: -200px;
+        left: -5px;
+        width: 0px;
+        height: 0px;
+        border-bottom: 200px solid $colorBlade;
+        border-left: 35px solid transparent;
+        // border-right: 35px solid transparent;
+        filter: brightness(80%);
+        transform-origin: 100% 100%;
+        transform: rotateZ(42.4deg) rotateX(0deg) rotateY(30deg) translate3d(0px, 0px, 5px);
+      }
+    }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateX(10deg) rotateY(-20deg);
+  }
+  100% {
+    transform: rotateX(-40deg) rotateY(-340deg);
+  }
+}
