@@ -1,370 +1,337 @@
-<!DOCTYPE html>
-<html>
-  <!-- Select an option from the style selector to see some of the
-       customizations you can apply with map styling. -->
+<!doctype html>
+<html lang="en">
   <head>
-    <!-- This stylesheet contains specific styles for displaying the map
-         on this page. Replace it with your own styles as described in the
-         documentation:
-         https://developers.google.com/maps/documentation/javascript/tutorial -->
-    <link rel="stylesheet" href="/maps/documentation/javascript/demos/demos.css">
-    <style>
-      .map-control {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
-        font-family: 'Roboto','sans-serif';
-        margin: 10px;
-        /* Hide the control initially, to prevent it from appearing
-           before the map loads. */
-        display: none;
-      }
-      /* Display the control once it is inside the map. */
-      #map .map-control { display: block; }
-
-      .selector-control {
-        font-size: 14px;
-        line-height: 30px;
-        padding-left: 5px;
-        padding-right: 5px;
-      }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>3D Hartwig chess set in HTML/CSS/JS</title>
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css">
+    <script src="js/prefixfree.min.js"></script>
   </head>
   <body>
-    <div id="style-selector-control"  class="map-control">
-      <select id="style-selector" class="selector-control">
-        <option value="default">Default</option>
-        <option value="silver">Silver</option>
-        <option value="night">Night mode</option>
-        <option value="retro" selected="selected">Retro</option>
-        <option value="hiding">Hide features</option>
-      </select>
+    <div id="app" class="loading" data-theme="classic" data-frame="off" data-menu="main">
+      <div id="logo">
+        <div class="symbol"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div class="symbol"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div class="symbol"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div class="symbol"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div class="symbol"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div id="overlay"></div>
+      <div id="menu" class="main">
+        <img id ="logoimg" src="img/logo.png" alt="hartwig chess set" />
+        <section id="panes">
+          <section id="themes" class="pane">
+            <div id="themes-box">
+              <div class="set-theme" data-theme="classic"><div class="cube"></div></div>
+              <div class="set-theme" data-theme="marble"><div class="cube"></div></div>
+              <div class="set-theme" data-theme="flat"><div class="cube"></div></div>
+              <div class="set-theme" data-theme="wireframe"><div class="cube"></div></div>
+            </div>
+            <input type="checkbox" id="frame-switch" onchange="toggleFrame(this)"/>
+            <label for="frame-switch" class="btn white switch">Border</label>
+            <button type="button" class="btn menu-nav" data-menu="main">Back</button>
+          </section>
+          <section id="main" class="pane">
+            <h1>3D Hartwig chess set</h1>
+            <p>done in HTML/CSS/JS by <a href="http://twitter.com/juliangarnier" target="_blank">@JulianGarnier</a></p>
+            <button type="button" class="btn white menu-nav" data-menu="themes">Themes
+            <button type="button" id="continue" class="btn">Play
+            <button type="button" class="btn white menu-nav" data-menu="about">About
+          </section>
+          <section id="about" class="pane">
+            <h1>About</h1>
+            <p>Design and code by <a href="http://twitter.com/juliangarnier" target="_blank">@JulianGarnier</a></p>
+            <p>Works only in webkit.</p>
+            <p>Licensed under the MIT license.</p>
+            <p>Fork me on <a href="https://github.com/juliangarnier/3D-Artwig-chess-set" target="_blanc">Github<a></p>
+            <h2>Libraries</h2>
+            <p>Lighting effect : <a href="http://photon.attasi.com" target="_blank">Photon</a><br>
+              Moves and validation : <a href="https://github.com/jhlywa/chess.js" target="_blank">Chess.js</a></p>
+            <button type="button" class="btn menu-nav" data-menu="main">Back</button>
+          </section>
+        </div>
+      <div id="top-bar">
+        <button type="button" class="btn icon" data-state="inactive" id="undo"></button>
+        <p id="log"></p>
+        <button type="button" class="btn icon" id="open-menu"></button>
+      </div>
+      <div id="container">
+        <div id="scene">
+          <div id="table">
+          <div id="b-jail" class="jail"></div>
+          <div id="frame"></div>
+        <table id="board">
+          <thead>
+            <tr>
+              <th></th>
+              <th><span>a</span></th>
+              <th><span>b</span></th>
+              <th><span>c</span></th>
+              <th><span>d</span></th>
+              <th><span>e</span></th>
+              <th><span>f</span></th>
+              <th><span>g</span></th>
+              <th><span>h</span></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th><span>8</span></th>
+              <td id="a8" class="square"></td>
+              <td id="b8" class="square"></td>
+              <td id="c8" class="square"></td>
+              <td id="d8" class="square"></td>
+              <td id="e8" class="square"></td>
+              <td id="f8" class="square"></td>
+              <td id="g8" class="square"></td>
+              <td id="h8" class="square"></td>
+              <th><span>8</span></th>
+            </tr>
+            <tr>
+              <th><span>7</span></th>
+              <td id="a7" class="square"></td>
+              <td id="b7" class="square"></td>
+              <td id="c7" class="square"></td>
+              <td id="d7" class="square"></td>
+              <td id="e7" class="square"></td>
+              <td id="f7" class="square"></td>
+              <td id="g7" class="square"></td>
+              <td id="h7" class="square"></td>
+              <th><span>7</span></th>
+            </tr>
+            <tr>
+              <th><span>6</span></th>
+              <td id="a6" class="square"></td>
+              <td id="b6" class="square"></td>
+              <td id="c6" class="square"></td>
+              <td id="d6" class="square"></td>
+              <td id="e6" class="square"></td>
+              <td id="f6" class="square"></td>
+              <td id="g6" class="square"></td>
+              <td id="h6" class="square"></td>
+              <th><span>6</span></th>
+            </tr>
+            <tr>
+              <th><span>5</span></th>
+              <td id="a5" class="square"></td>
+              <td id="b5" class="square"></td>
+              <td id="c5" class="square"></td>
+              <td id="d5" class="square"></td>
+              <td id="e5" class="square"></td>
+              <td id="f5" class="square"></td>
+              <td id="g5" class="square"></td>
+              <td id="h5" class="square"></td>
+              <th><span>5</span></th>
+            </tr>
+            <tr>
+              <th><span>4</span></th>
+              <td id="a4" class="square"></td>
+              <td id="b4" class="square"></td>
+              <td id="c4" class="square"></td>
+              <td id="d4" class="square"></td>
+              <td id="e4" class="square"></td>
+              <td id="f4" class="square"></td>
+              <td id="g4" class="square"></td>
+              <td id="h4" class="square"></td>
+              <th><span>4</span></th>
+            </tr>
+            <tr>
+              <th><span>3</span></th>
+              <td id="a3" class="square"></td>
+              <td id="b3" class="square"></td>
+              <td id="c3" class="square"></td>
+              <td id="d3" class="square"></td>
+              <td id="e3" class="square"></td>
+              <td id="f3" class="square"></td>
+              <td id="g3" class="square"></td>
+              <td id="h3" class="square"></td>
+              <th><span>3</span></th>
+            </tr>
+            <tr>
+              <th><span>2</span></th>
+              <td id="a2" class="square"></td>
+              <td id="b2" class="square"></td>
+              <td id="c2" class="square"></td>
+              <td id="d2" class="square"></td>
+              <td id="e2" class="square"></td>
+              <td id="f2" class="square"></td>
+              <td id="g2" class="square"></td>
+              <td id="h2" class="square"></td>
+              <th><span>2</span></th>
+            </tr>
+            <tr>
+              <th><span>1</span></th>
+              <td id="a1" class="square"></td>
+              <td id="b1" class="square"></td>
+              <td id="c1" class="square"></td>
+              <td id="d1" class="square"></td>
+              <td id="e1" class="square"></td>
+              <td id="f1" class="square"></td>
+              <td id="g1" class="square"></td>
+              <td id="h1" class="square"></td>
+              <th><span>1</span></th>
+            </div>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th><span>a</span></th>
+              <th><span>b</span></th>
+              <th><span>c</span></th>
+              <th><span>d</span></th>
+              <th><span>e</span></th>
+              <th><span>f</span></th>
+              <th><span>g</span></th>
+              <th><span>h</span></th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+          <div id="w-jail" class="jail"></div>
+        </div>
+        <div id="pieces">
+          <div id="p" class="piece pawn">
+            <div class="poly-group">
+              <div class="poly small-cube">
+                <div class="ft face"></div>
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+          </div>
+          <div id="r" class="piece rook">
+            <div class="poly-group">
+              <div class="poly big-cube">
+                <div class="ft face"></div>
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+          </div>
+          <div id="n" class="piece knight">
+            <div class="poly-group bottom">
+              <div class="poly a">
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+              </div>
+              <div class="poly b">
+                <div class="ft face"></div>
+                <div class="tp face"></div>
+              </div>
+              <div class="poly c">
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+              </div>
+            </div>
+            <div class="poly-group top">
+              <div class="poly a">
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+              <div class="poly b">
+                <div class="ft face"></div>
+                <div class="tp face"></div>
+              </div>
+              <div class="poly c">
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+              </div>
+            </div>
+          </div>
+          <div id="b" class="piece bishop">
+            <div class="poly-group rectangle a">
+              <div class="poly">
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+            <div class="poly-group rectangle b">
+              <div class="poly">
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+            <div class="poly-group rectangle b prim">
+              <div class="poly">
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+            <div class="poly-group corners a">
+              <div class="poly big-cube">
+                <div class="ft face"></div>
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+              </div>
+            </div>
+            <div class="poly-group corners b">
+              <div class="poly big-cube">
+                <div class="ft face"></div>
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+              </div>
+            </div>
+          </div>
+          <div id="q" class="piece queen">
+            <div class="poly-group bottom">
+              <div class="poly big-cube">
+                <div class="ft face"></div>
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+            <div class="poly-group top">
+              <div class="poly">
+                <div class="sphere"></div>
+              </div>
+            </div>
+          </div>
+          <div id="k" class="piece king">
+            <div class="poly-group bottom">
+              <div class="poly big-cube">
+                <div class="ft face"></div>
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+            <div class="poly-group top">
+              <div class="poly small-cube">
+                <div class="ft face"></div>
+                <div class="bk face"></div>
+                <div class="rt face"></div>
+                <div class="lt face"></div>
+                <div class="tp face"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div id="promotion"></div>
+      </div>
     </div>
-    <div id="map"></div>
-    <script>
-      var map;
-      function initMap() {
-        // Create the map with no initial style specified.
-        // It therefore has default styling.
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -33.86, lng: 151.209},
-          zoom: 13,
-          mapTypeControl: false
-        });
-
-        // Add a style-selector control to the map.
-        var styleControl = document.getElementById('style-selector-control');
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(styleControl);
-
-        // Set the map's style to the initial value of the selector.
-        var styleSelector = document.getElementById('style-selector');
-        map.setOptions({styles: styles[styleSelector.value]});
-
-        // Apply new JSON when the user selects a different style.
-        styleSelector.addEventListener('change', function() {
-          map.setOptions({styles: styles[styleSelector.value]});
-        });
-      }
-
-      var styles = {
-        default: null,
-        silver: [
-          {
-            elementType: 'geometry',
-            stylers: [{color: '#f5f5f5'}]
-          },
-          {
-            elementType: 'labels.icon',
-            stylers: [{visibility: 'off'}]
-          },
-          {
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#616161'}]
-          },
-          {
-            elementType: 'labels.text.stroke',
-            stylers: [{color: '#f5f5f5'}]
-          },
-          {
-            featureType: 'administrative.land_parcel',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#bdbdbd'}]
-          },
-          {
-            featureType: 'poi',
-            elementType: 'geometry',
-            stylers: [{color: '#eeeeee'}]
-          },
-          {
-            featureType: 'poi',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#757575'}]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'geometry',
-            stylers: [{color: '#e5e5e5'}]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#9e9e9e'}]
-          },
-          {
-            featureType: 'road',
-            elementType: 'geometry',
-            stylers: [{color: '#ffffff'}]
-          },
-          {
-            featureType: 'road.arterial',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#757575'}]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'geometry',
-            stylers: [{color: '#dadada'}]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#616161'}]
-          },
-          {
-            featureType: 'road.local',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#9e9e9e'}]
-          },
-          {
-            featureType: 'transit.line',
-            elementType: 'geometry',
-            stylers: [{color: '#e5e5e5'}]
-          },
-          {
-            featureType: 'transit.station',
-            elementType: 'geometry',
-            stylers: [{color: '#eeeeee'}]
-          },
-          {
-            featureType: 'water',
-            elementType: 'geometry',
-            stylers: [{color: '#c9c9c9'}]
-          },
-          {
-            featureType: 'water',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#9e9e9e'}]
-          }
-        ],
-
-        night: [
-          {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-          {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-          {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
-          {
-            featureType: 'administrative.locality',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#d59563'}]
-          },
-          {
-            featureType: 'poi',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#d59563'}]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'geometry',
-            stylers: [{color: '#263c3f'}]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#6b9a76'}]
-          },
-          {
-            featureType: 'road',
-            elementType: 'geometry',
-            stylers: [{color: '#38414e'}]
-          },
-          {
-            featureType: 'road',
-            elementType: 'geometry.stroke',
-            stylers: [{color: '#212a37'}]
-          },
-          {
-            featureType: 'road',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#9ca5b3'}]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'geometry',
-            stylers: [{color: '#746855'}]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'geometry.stroke',
-            stylers: [{color: '#1f2835'}]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#f3d19c'}]
-          },
-          {
-            featureType: 'transit',
-            elementType: 'geometry',
-            stylers: [{color: '#2f3948'}]
-          },
-          {
-            featureType: 'transit.station',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#d59563'}]
-          },
-          {
-            featureType: 'water',
-            elementType: 'geometry',
-            stylers: [{color: '#17263c'}]
-          },
-          {
-            featureType: 'water',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#515c6d'}]
-          },
-          {
-            featureType: 'water',
-            elementType: 'labels.text.stroke',
-            stylers: [{color: '#17263c'}]
-          }
-        ],
-
-        retro: [
-          {elementType: 'geometry', stylers: [{color: '#ebe3cd'}]},
-          {elementType: 'labels.text.fill', stylers: [{color: '#523735'}]},
-          {elementType: 'labels.text.stroke', stylers: [{color: '#f5f1e6'}]},
-          {
-            featureType: 'administrative',
-            elementType: 'geometry.stroke',
-            stylers: [{color: '#c9b2a6'}]
-          },
-          {
-            featureType: 'administrative.land_parcel',
-            elementType: 'geometry.stroke',
-            stylers: [{color: '#dcd2be'}]
-          },
-          {
-            featureType: 'administrative.land_parcel',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#ae9e90'}]
-          },
-          {
-            featureType: 'landscape.natural',
-            elementType: 'geometry',
-            stylers: [{color: '#dfd2ae'}]
-          },
-          {
-            featureType: 'poi',
-            elementType: 'geometry',
-            stylers: [{color: '#dfd2ae'}]
-          },
-          {
-            featureType: 'poi',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#93817c'}]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'geometry.fill',
-            stylers: [{color: '#a5b076'}]
-          },
-          {
-            featureType: 'poi.park',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#447530'}]
-          },
-          {
-            featureType: 'road',
-            elementType: 'geometry',
-            stylers: [{color: '#f5f1e6'}]
-          },
-          {
-            featureType: 'road.arterial',
-            elementType: 'geometry',
-            stylers: [{color: '#fdfcf8'}]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'geometry',
-            stylers: [{color: '#f8c967'}]
-          },
-          {
-            featureType: 'road.highway',
-            elementType: 'geometry.stroke',
-            stylers: [{color: '#e9bc62'}]
-          },
-          {
-            featureType: 'road.highway.controlled_access',
-            elementType: 'geometry',
-            stylers: [{color: '#e98d58'}]
-          },
-          {
-            featureType: 'road.highway.controlled_access',
-            elementType: 'geometry.stroke',
-            stylers: [{color: '#db8555'}]
-          },
-          {
-            featureType: 'road.local',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#806b63'}]
-          },
-          {
-            featureType: 'transit.line',
-            elementType: 'geometry',
-            stylers: [{color: '#dfd2ae'}]
-          },
-          {
-            featureType: 'transit.line',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#8f7d77'}]
-          },
-          {
-            featureType: 'transit.line',
-            elementType: 'labels.text.stroke',
-            stylers: [{color: '#ebe3cd'}]
-          },
-          {
-            featureType: 'transit.station',
-            elementType: 'geometry',
-            stylers: [{color: '#dfd2ae'}]
-          },
-          {
-            featureType: 'water',
-            elementType: 'geometry.fill',
-            stylers: [{color: '#b9d3c2'}]
-          },
-          {
-            featureType: 'water',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#92998d'}]
-          }
-        ],
-
-        hiding: [
-          {
-            featureType: 'poi.business',
-            stylers: [{visibility: 'off'}]
-          },
-          {
-            featureType: 'transit',
-            elementType: 'labels.icon',
-            stylers: [{visibility: 'off'}]
-          }
-        ]
-      };
-
-
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
-        async defer></script>
+    <script src="js/scripts.min.js"></script>
   </body>
-</html>  
+</html>
