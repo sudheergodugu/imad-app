@@ -175,17 +175,16 @@ textarea {
     clear: both;
   }
 
-  > div {
+   div {
     float:left;
     width:48%;
     margin-right:4%;
     &:last-child { 
       margin:0;
     }
-  }
-}
+  
 
-.button {
+. {
   border:0;
   outline:none;
   border-radius:0;
