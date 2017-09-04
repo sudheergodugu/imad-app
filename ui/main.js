@@ -66,8 +66,6 @@ submit.onclick = function() {
       }  
       // not done yet
     };
-     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
-    async defer></script>
     
     
     // make the request
