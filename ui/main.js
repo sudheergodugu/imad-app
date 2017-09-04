@@ -66,6 +66,9 @@ submit.onclick = function() {
       }  
       // not done yet
     };
+     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+    async defer></script>
+    
     
     // make the request
     var username = document.getElementById("username").value;
@@ -74,3 +77,8 @@ submit.onclick = function() {
     request.setRequestHeader('Content-Type', 'application/json');
     request.send(JSON.stringify({username: username, password: password}));
 };
+
+
+
+
+
