@@ -19,7 +19,7 @@ body {
  .img-medium {
 height: 200px;
  }
-@import "compass/css3";
+@import "ui/style.css*";
 
 $body-bg: #c1bdba;
 $form-bg: #13232f;
