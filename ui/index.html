@@ -144,7 +144,15 @@ all rights reserved
                     </div>
                         <script type="text/javascript" src="/ui/main.js"></script>
                         
-                        
+                        <div id="searchbox"></div>
+<div id="hits"></div>
+
+<script>
+  const { searchBox, hits } = instantsearch.widgets;
+  search.addWidget(searchBox({ container: "#searchbox" }));
+  search.addWidget(hits({ container: '#hits' }));
+  search.start();
+</script>
                         
                         
                         
